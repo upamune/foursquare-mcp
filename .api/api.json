@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "apis": [
+    {
+      "identifier": "fsq-developers",
+      "source": "@fsq-developers/v1.0#710fjluugs722",
+      "integrity": "sha512-TWpSM4AFWwov3s0Ta3ngq5meOSHkRO/25qlI2kt4p20Uo1CORlbQFxSSDxOQQ5bK2KhR69gK2r8zciGiQlnnzA==",
+      "installerVersion": "6.1.3"
+    }
+  ]
+}

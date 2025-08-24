@@ -1,0 +1,56 @@
+{
+  "name": "@upamune/foursquare-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for Foursquare API integration",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "index.ts",
+  "bin": {
+    "foursquare-mcp": "./dist/index.js"
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "bun build ./index.ts --outdir ./dist --target node",
+    "dev": "bun run index.ts",
+    "prepublishOnly": "bun run build"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "foursquare",
+    "ai",
+    "llm"
+  ],
+  "author": "upamune",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/upamune/foursquare-mcp.git"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/node": "^20.0.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.17.4",
+    "@types/express": "^5.0.3",
+    "express": "^4.19.2",
+    "node-fetch": "^3.3.2",
+    "open": "^10.1.0",
+    "zod": "^3.22.0"
+  }
+}
