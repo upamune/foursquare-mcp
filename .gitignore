@@ -345,3 +345,5 @@ dist
 
 z/
 
+# test files
+test-env-token.ts

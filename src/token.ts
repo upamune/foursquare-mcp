@@ -28,6 +28,11 @@ export class TokenManager {
    * トークンを保存
    */
   async saveToken(token: TokenInfo): Promise<void> {
+    // 環境変数が設定されている場合の警告
+    if (process.env.FOURSQUARE_ACCESS_TOKEN) {
+      console.warn('⚠️ 環境変数FOURSQUARE_ACCESS_TOKENが設定されています。保存されたトークンは使用されません。');
+    }
+
     if (!this.tokenPath) {
       await this.initialize();
     }
@@ -44,6 +49,14 @@ export class TokenManager {
    * トークンを読み込み
    */
   async loadToken(): Promise<TokenInfo | null> {
+    // 環境変数FOURSQUARE_ACCESS_TOKENが設定されていれば優先
+    if (process.env.FOURSQUARE_ACCESS_TOKEN) {
+      return {
+        access_token: process.env.FOURSQUARE_ACCESS_TOKEN,
+        created_at: Date.now(),
+      };
+    }
+
     if (!this.tokenPath) {
       await this.initialize();
     }
@@ -82,6 +95,11 @@ export class TokenManager {
    * トークンが存在するかチェック
    */
   async hasToken(): Promise<boolean> {
+    // 環境変数が設定されていれば true
+    if (process.env.FOURSQUARE_ACCESS_TOKEN) {
+      return true;
+    }
+    
     const token = await this.loadToken();
     return token !== null;
   }

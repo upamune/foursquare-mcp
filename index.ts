@@ -73,10 +73,16 @@ server.registerTool(
       
       if (isValid) {
         const configDir = getConfigDir();
+        const isEnvToken = !!process.env.FOURSQUARE_ACCESS_TOKEN;
+        
+        const message = isEnvToken 
+          ? "✅ 認証済み\n\nトークンは有効です。\n取得元: 環境変数 FOURSQUARE_ACCESS_TOKEN"
+          : `✅ 認証済み\n\nトークンは有効です。\n保存場所: ${configDir}/token.json`;
+        
         return {
           content: [{
             type: "text",
-            text: `✅ 認証済み\n\nトークンは有効です。\n保存場所: ${configDir}/token.json`
+            text: message
           }]
         };
       } else {

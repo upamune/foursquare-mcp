@@ -84,11 +84,38 @@ bun run index.ts
 - `afterTimestamp`: 指定したUnixタイムスタンプ以降のチェックインのみ取得
 - `sort`: ソート順（"newestfirst" または "oldestfirst"）
 
-## トークン保存場所
+## トークン管理
+
+### トークン保存場所
 
 - Linux: `~/.config/foursquare-mcp/token.json`
 - macOS: `~/Library/Application Support/foursquare-mcp/token.json`
 - Windows: `%APPDATA%\foursquare-mcp\token.json`
+
+### 環境変数でのトークン指定
+
+`FOURSQUARE_ACCESS_TOKEN` 環境変数を設定することで、保存されたトークンファイルより優先してアクセストークンを使用できます：
+
+```json
+{
+  "mcpServers": {
+    "foursquare": {
+      "command": "bunx",
+      "args": ["@upamune/foursquare-mcp"],
+      "env": {
+        "FOURSQUARE_CLIENT_ID": "your_client_id",
+        "FOURSQUARE_CLIENT_SECRET": "your_client_secret",
+        "FOURSQUARE_ACCESS_TOKEN": "your_access_token"
+      }
+    }
+  }
+}
+```
+
+この機能は以下のような場合に便利です：
+- 複数環境でトークンを共有したい場合
+- CI/CD環境での利用
+- トークンファイルの管理を避けたい場合
 
 ## ライセンス
 
