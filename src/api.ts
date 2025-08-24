@@ -1,6 +1,13 @@
 import fetch from 'node-fetch';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc.js';
+import timezone from 'dayjs/plugin/timezone.js';
 import { API_CONFIG } from './config.js';
 import { tokenManager } from './token.js';
+
+// dayjsプラグインを読み込み
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 /**
  * Foursquare APIレスポンスの基本型
@@ -231,16 +238,9 @@ export class FoursquareAPI {
    * チェックイン日時をJSTでフォーマット
    */
   formatCheckinDate(checkin: Checkin): string {
-    const date = new Date(checkin.createdAt * 1000);
-    const jstDate = new Date(date.getTime() + (checkin.timeZoneOffset || 540) * 60 * 1000);
-    
-    const year = jstDate.getFullYear();
-    const month = String(jstDate.getMonth() + 1).padStart(2, '0');
-    const day = String(jstDate.getDate()).padStart(2, '0');
-    const hours = String(jstDate.getHours()).padStart(2, '0');
-    const minutes = String(jstDate.getMinutes()).padStart(2, '0');
-    
-    return `${year}/${month}/${day} ${hours}:${minutes}`;
+    // FoursquareのタイムスタンプはUNIXタイムスタンプ（UTC）
+    // dayjsで明示的に日本時間に変換
+    return dayjs.unix(checkin.createdAt).tz('Asia/Tokyo').format('YYYY/MM/DD HH:mm');
   }
 
   /**
