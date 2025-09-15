@@ -1,0 +1,41 @@
+# Source files
+*.ts
+!*.d.ts
+tsconfig.json
+
+# Development files
+.git
+.gitignore
+bun.lockb
+node_modules
+.env
+.env.*
+
+# Test files
+test-*.ts
+*.test.ts
+*.spec.ts
+__tests__
+
+# Documentation source
+docs/
+z/
+CLAUDE.md
+
+# Example and config files
+*.example
+*.sample
+claude_desktop_config.json
+
+# Temporary files
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Build artifacts (keep only dist)
+src/
+index.ts
+
+# Output files from testing
+checkins-*.json

@@ -1,16 +1,22 @@
 # Foursquare MCP Server
 
-Foursquare APIとの連携を提供するModel Context Protocol (MCP)サーバーです。
+Foursquare APIとの連携を提供するModel Context Protocol (MCP)サーバーです。MCPサーバーとしての動作に加え、CLIツールとしても使用できます。
 
 ## 必要な環境
 
-- [Bun](https://bun.sh/) >= 1.0.0
+- [Bun](https://bun.sh/) >= 1.0.0 または Node.js >= 18.0.0
 - Foursquare Developer アカウント
-- MCPクライアント（Claude Desktop等）
+- MCPクライアント（Claude Desktop等）※MCPサーバーとして使用する場合
 
-## 使い方
+## インストール
 
-### bunx を使った簡単な実行
+### npm からインストール
+
+```bash
+npm install -g @upamune/foursquare-mcp
+```
+
+### bunx を使った実行（インストール不要）
 
 ```bash
 bunx @upamune/foursquare-mcp
@@ -22,17 +28,66 @@ bunx @upamune/foursquare-mcp
 git clone https://github.com/upamune/foursquare-mcp.git
 cd foursquare-mcp
 bun install
-bun run index.ts
+bun run build
 ```
 
-## Foursquare Developer設定
+## CLIツールとしての使用
+
+v0.2.0から、MCPサーバーを起動せずに直接CLIコマンドとして使用できるようになりました。
+
+### コマンドラインから直接実行
+
+```bash
+# 認証（初回のみ必要）
+foursquare-mcp invoke authenticate --client-id YOUR_CLIENT_ID --client-secret YOUR_CLIENT_SECRET
+
+# 認証状態を確認
+foursquare-mcp invoke check-auth-status
+
+# チェックインを取得
+foursquare-mcp invoke get-user-checkins
+
+# オプション付きでチェックインを取得
+foursquare-mcp invoke get-user-checkins --limit 10 --sort oldestfirst
+
+# JSON形式で出力
+foursquare-mcp invoke get-user-checkins --json
+
+# 特定の日時以降のチェックインを取得
+foursquare-mcp invoke get-user-checkins --after 1735689600
+```
+
+### 利用可能なCLIコマンド
+
+#### `invoke authenticate`
+Foursquare認証を行います。ブラウザが自動的に開き、ログイン後トークンが保存されます。
+
+オプション:
+- `--client-id <ID>`: Foursquare CLIENT_ID
+- `--client-secret <SECRET>`: Foursquare CLIENT_SECRET
+
+#### `invoke check-auth-status`
+保存されたトークンの有効性を確認します。
+
+#### `invoke get-user-checkins`
+チェックイン履歴を取得します。
+
+オプション:
+- `--limit <数値>`: 取得件数（デフォルト: 50）
+- `--after <timestamp>`: このUnixタイムスタンプ以降のチェックイン
+- `--sort <順序>`: newestfirst または oldestfirst
+- `--json`: JSON形式で出力
+
+## MCPサーバーとしての使用
+
+### Foursquare Developer設定
 
 1. [Foursquare Developer Portal](https://developer.foursquare.com/)でアカウントを作成
 2. 新しいアプリケーションを作成  
 3. OAuth設定でRedirect URIに `http://localhost:52847/callback` を追加
 4. CLIENT_IDとCLIENT_SECRETを取得
 
-## Claude Desktop設定
+### Claude Desktop設定
 
 `~/Library/Application Support/Claude/claude_desktop_config.json`に以下を追加：
 
@@ -68,15 +123,15 @@ bun run index.ts
 }
 ```
 
-## 機能
+### MCPツール一覧
 
-### authenticate
+#### authenticate
 初回利用時にFoursquare認証を行います。ブラウザが自動的に開き、ログイン後トークンが保存されます。
 
-### check-auth-status
+#### check-auth-status
 保存されたトークンの有効性を確認します。
 
-### get-user-checkins
+#### get-user-checkins
 チェックイン履歴を取得します。
 
 パラメータ:
